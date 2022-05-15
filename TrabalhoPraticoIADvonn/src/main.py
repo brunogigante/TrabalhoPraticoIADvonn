@@ -16,6 +16,7 @@ def run_simulation(desc: str, simulator: GameSimulator, iterations: int):
 
 
 def main():
+    global dvonn_simulations
     print("Dvonn Game Simulator")
 
     num_iterations = 1

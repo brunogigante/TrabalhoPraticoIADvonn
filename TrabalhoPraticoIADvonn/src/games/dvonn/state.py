@@ -38,7 +38,7 @@ class DvonnState(State):
                        [-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
                        [-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1], ]
 
-        # cada posicao valida vai ser um tuplo
+        # cada posicao valida vai é um tuple
         # (jogador, numero de peças)
         # self.__is_completed = True
         # count = 0
