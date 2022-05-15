@@ -37,7 +37,7 @@ def main():
                 }]
         elif option == 2:
             dvonn_simulations = [{
-                   "name": "Random VS Random",
+                   "name": "Human VS Random",
                    "player1": HumanDvonnPlayer("Human"),
                    "player2": RandomDvonnPlayer("Random")
                 }]
