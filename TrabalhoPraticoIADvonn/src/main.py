@@ -19,35 +19,28 @@ def main():
     print("Dvonn Game Simulator")
 
     num_iterations = 1
+    option = 0
 
-    dvonn_simulations = [
-        # uncomment to play as human
-        # {
-        #     "name": "Yinsh - Human VS Human",
-        #     "player1": HumanDvonnPlayer("Human1"),
-        #     "player2": HumanDvonnPlayer("Human2")
-        # },
-        {
-           "name": "Yinsh - Random VS Random",
-           "player1": HumanDvonnPlayer("Random 1"),
-           "player2": RandomDvonnPlayer("Random 2")
-        },
-        #{
-        #    "name": "Yinsh - Greedy VS Random",
-        #    "player1": GreedyDvonnPlayer("Greedy"),
-        #    "player2": RandomDvonnPlayer("Random")
-        #},
-        #{
-        #    "name": "Minimax VS Random",
-        #    "player1": MinimaxDvonnPlayer("Minimax"),
-        #    "player2": RandomDvonnPlayer("Random")
-        #},
-        #{
-        #    "name": "Minimax VS Greedy",
-        #    "player1": MinimaxDvonnPlayer("Minimax"),
-        #    "player2": GreedyDvonnPlayer("Greedy")
-        #}
-    ]
+    print("1 - Humano vs Humano")
+    print("2 - Humano vs Random")
+
+    while option > 2 or option <1:
+        option = int(input(f"Escolha o modo de jogo: "))
+
+        if option == 1:
+            dvonn_simulations = [
+                {
+                    "name": "Human VS Human",
+                    "player1": HumanDvonnPlayer("Human1"),
+                    "player2": HumanDvonnPlayer("Human2")
+                }]
+        elif option == 2:
+            dvonn_simulations = [{
+                   "name": "Random VS Random",
+                   "player1": HumanDvonnPlayer("Random 1"),
+                   "player2": RandomDvonnPlayer("Random 2")
+                }]
+
 
     for sim in dvonn_simulations:
         run_simulation(sim["name"], DvonnSimulator(sim["player1"], sim["player2"]), num_iterations)

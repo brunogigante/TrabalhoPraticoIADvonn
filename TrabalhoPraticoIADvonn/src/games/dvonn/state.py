@@ -158,6 +158,7 @@ class DvonnState(State):
         last_row, last_col = self.__last_play
         last_player, last_numPieces = self.__grid[last_row][last_col]
 
+        print("Is completed validate action: ", self.__is_completed)
 
         if col < 0 or col > 20:
             return False
@@ -235,6 +236,8 @@ class DvonnState(State):
 
         player, num_pieces = self.__grid[row][col]
 
+        print("Is completed update: ", self.__is_completed)
+
         if self.__is_completed and self.__is_selecting:
             self.__grid[row][col] = (-2, num_pieces)
         elif self.__is_completed and not self.__is_selecting:
@@ -247,7 +250,9 @@ class DvonnState(State):
             self.__grid[row][col] = (self.__acting_player, 1)
 
         if not self.__is_completed:
+            print("AQUIIIIIIIIII")
             self.__available_plays -= 1
+            print("available plays update: ", self.__available_plays)
 
         if self.__available_plays == 0:
             self.__is_completed = True
