@@ -114,7 +114,7 @@ class DvonnState(State):
             col = randint(0, 20)
 
             # player, num_pieces = (1, 3)
-            #   1   ,     3
+            #   1   ,    3
             player, num_pieces = self.__grid[row][col]
 
             if player != -1:
