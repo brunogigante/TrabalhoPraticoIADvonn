@@ -222,7 +222,6 @@ class DvonnState(State):
                         if row_diff > last_numPieces:
                             return False
 
-
                 if self.__available_plays != 0:
                     # verificaçoes para jogadas após a primeira
                     pass
