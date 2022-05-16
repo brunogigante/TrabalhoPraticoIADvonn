@@ -16,12 +16,13 @@ class HumanDvonnPlayer(DvonnPlayer):
         state.display()
 
         while True:
-            # noinspection PyBroadException
             try:
                 col = int(input(
-                    f"Player {bcolors.black + 'Black' + bcolors.RESET if state.get_acting_player() == 0 else bcolors.white + 'White' + bcolors.RESET}, choose a column: "))
+                    f"Player {bcolors.black + 'Black' + bcolors.RESET if state.get_acting_player() == 0 else bcolors.white + 'White' + bcolors.RESET}"
+                    f", choose a column: "))
                 row = int(input(
-                    f"Player {bcolors.black + 'Black' + bcolors.RESET if state.get_acting_player() == 0 else bcolors.white + 'White' + bcolors.RESET}, choose a row: "))
+                    f"Player {bcolors.black + 'Black' + bcolors.RESET if state.get_acting_player() == 0 else bcolors.white + 'White' + bcolors.RESET}"
+                    f", choose a row: "))
                 return DvonnAction(col, row)
             except Exception:
                 continue

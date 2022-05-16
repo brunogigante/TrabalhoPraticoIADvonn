@@ -42,50 +42,48 @@ class DvonnState(State):
         # (jogador, numero de peças)
         # self.__is_completed = True
         # count = 0
-        for i in range(0, len(self.__grid)):
-            for j in range(0, len(self.__grid[i])):
-                if self.__grid[i][j] == 0:
-                    self.__grid[i][j] = (0, 0)
-                    """if count == 1:
-                        self.__grid[i][j] = (1, 14)
-                    elif count == 2:
-                        self.__grid[i][j] = (1, 14)
-                    elif count == 3:
-                        self.__grid[i][j] = (2, 46 - 28)
-                    else:
-                        self.__grid[i][j] = (0, 0)
-                    count+=1"""
-                else:
-                    self.__grid[i][j] = (-1, 0)
+        # for i in range(0, len(self.__grid)):
+        #     for j in range(0, len(self.__grid[i])):
+        #         if self.__grid[i][j] == 0:
+        #             self.__grid[i][j] = (0, 0)
+        #             if count == 1:
+        #                 self.__grid[i][j] = (1, 23)
+        #             elif count == 2:
+        #                 self.__grid[i][j] = (2, 23)
+        #             else:
+        #                 self.__grid[i][j] = (0, 0)
+        #             count += 1
+        #         else:
+        #             self.__grid[i][j] = (-1, 0)
 
         self.__first_play()
 
         # completar automaticamente a grid com 23 peças de cada cor para jogar diretamente na momento das stacks
-        for i in range(0, 23):
-            __is__valid = False
-            while not __is__valid:
-                row = randint(0, 4)
-                col = randint(0, 20)
-                player, num_pieces = self.__grid[row][col]
-                if player == 0:
-                    __is__valid = True
-                    self.__grid[row][col] = (1, 1)
-                    self.__available_plays -= 1
-                    if self.__available_plays == 0:
-                        self.__is_completed = True
-
-        for i in range(0, 23):
-            __is__valid = False
-            while not __is__valid:
-                row = randint(0, 4)
-                col = randint(0, 20)
-                player, num_pieces = self.__grid[row][col]
-                if player == 0:
-                    __is__valid = True
-                    self.__grid[row][col] = (2, 1)
-                    self.__available_plays -= 1
-                    if self.__available_plays == 0:
-                        self.__is_completed = True
+        # for i in range(0, 22):
+        #     __is__valid = False
+        #     while not __is__valid:
+        #         row = randint(0, 4)
+        #         col = randint(0, 20)
+        #         player, num_pieces = self.__grid[row][col]
+        #         if player == 0:
+        #             __is__valid = True
+        #             self.__grid[row][col] = (1, 1)
+        #             self.__available_plays -= 1
+        #             if self.__available_plays == 0:
+        #                 self.__is_completed = True
+        #
+        # for i in range(0, 22):
+        #     __is__valid = False
+        #     while not __is__valid:
+        #         row = randint(0, 4)
+        #         col = randint(0, 20)
+        #         player, num_pieces = self.__grid[row][col]
+        #         if player == 0:
+        #             __is__valid = True
+        #             self.__grid[row][col] = (2, 1)
+        #             self.__available_plays -= 1
+        #             if self.__available_plays == 0:
+        #                 self.__is_completed = True
 
 
         """
@@ -106,6 +104,8 @@ class DvonnState(State):
         self.__last_play = (-1, -1)
 
         self.__is_selecting = True
+
+        self.__draw = False
 
     def __first_play(self):
         valid_plays = 0
@@ -139,7 +139,14 @@ class DvonnState(State):
             print("O player", bcolors.black + "Black" + bcolors.RESET if player == 1 else bcolors.white + 'White' + bcolors.RESET, "ganhou!")
             return True
 
+
         if len(stacks_on_field) == 2:
+            values = [val for p, val in stacks_on_field]
+            print("Values: ", values)
+            if values[0] == values[1]:
+                self.__draw = True
+                print("Os players empataram!")
+                return True
             stacks_on_field.sort(key=lambda x:x[1])
             player_num, num_pieces = stacks_on_field.pop()
             if player_num == player:
@@ -157,8 +164,6 @@ class DvonnState(State):
         row = action.get_row()
         last_row, last_col = self.__last_play
         last_player, last_numPieces = self.__grid[last_row][last_col]
-
-        print("Is completed validate action: ", self.__is_completed)
 
         if col < 0 or col > 20:
             return False
@@ -233,10 +238,7 @@ class DvonnState(State):
     def update(self, action: DvonnAction):
         col = action.get_col()
         row = action.get_row()
-
         player, num_pieces = self.__grid[row][col]
-
-        print("Is completed update: ", self.__is_completed)
 
         if self.__is_completed and self.__is_selecting:
             self.__grid[row][col] = (-2, num_pieces)
@@ -250,12 +252,7 @@ class DvonnState(State):
             self.__grid[row][col] = (self.__acting_player, 1)
 
         if not self.__is_completed:
-            print("AQUIIIIIIIIII")
             self.__available_plays -= 1
-            print("available plays update: ", self.__available_plays)
-
-        if self.__available_plays == 0:
-            self.__is_completed = True
 
         if self.__is_completed:
             # determine if there is a winner
@@ -273,6 +270,10 @@ class DvonnState(State):
             # switch to next player
             self.__acting_player = 1 if self.__acting_player == 2 else 2
             self.__turns_count += 1
+
+        if self.__available_plays == 0:
+            self.__is_completed = True
+
         self.__last_play = (row, col)
 
     def __display_cell(self, row, col):
@@ -342,6 +343,8 @@ class DvonnState(State):
         return cloned_state
 
     def get_result(self, pos) -> Optional[DvonnResult]:
+        if self.__has_winner and self.__draw:
+            return DvonnResult.DRAW
         if self.__has_winner:
             return DvonnResult.LOOSE if pos == self.__acting_player else DvonnResult.WIN
         if self.__is_full():

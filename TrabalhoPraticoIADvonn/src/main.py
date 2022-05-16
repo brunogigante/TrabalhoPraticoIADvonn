@@ -25,7 +25,7 @@ def main():
     print("1 - Humano vs Humano")
     print("2 - Humano vs Random")
 
-    while option > 2 or option <1:
+    while option > 2 or option < 1:
         option = int(input(f"Escolha o modo de jogo: "))
 
         if option == 1:
