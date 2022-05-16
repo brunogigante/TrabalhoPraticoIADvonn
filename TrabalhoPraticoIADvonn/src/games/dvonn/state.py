@@ -42,19 +42,19 @@ class DvonnState(State):
         # (jogador, numero de peças)
         # self.__is_completed = True
         # count = 0
-        # for i in range(0, len(self.__grid)):
-        #     for j in range(0, len(self.__grid[i])):
-        #         if self.__grid[i][j] == 0:
-        #             self.__grid[i][j] = (0, 0)
-        #             if count == 1:
-        #                 self.__grid[i][j] = (1, 23)
-        #             elif count == 2:
-        #                 self.__grid[i][j] = (2, 23)
-        #             else:
-        #                 self.__grid[i][j] = (0, 0)
-        #             count += 1
-        #         else:
-        #             self.__grid[i][j] = (-1, 0)
+        for i in range(0, len(self.__grid)):
+            for j in range(0, len(self.__grid[i])):
+                if self.__grid[i][j] == 0:
+                    self.__grid[i][j] = (0, 0)
+                    """if count == 1:
+                        self.__grid[i][j] = (1, 23)
+                    elif count == 2:
+                        self.__grid[i][j] = (2, 23)
+                    else:
+                        self.__grid[i][j] = (0, 0)
+                    count += 1"""
+                else:
+                    self.__grid[i][j] = (-1, 0)
 
         self.__first_play()
 
@@ -125,6 +125,13 @@ class DvonnState(State):
         stacks_on_field = []
         amount_player = 0
         amount_other_player = 0
+
+        for row in range(0, 5):
+            for col in range(0, 21):
+                player_num, num_pieces = self.__grid[row][col]
+                if player_num == 3:
+                    return False
+
         for row in range(0, 5):
             for col in range(0, 21):
                 player_num, num_pieces = self.__grid[row][col]
@@ -207,7 +214,7 @@ class DvonnState(State):
                     # verificaçoes movimentaçao na horizontal
                     if last_row == row:
                         if last_col < col:
-                            if (col / 2) > last_numPieces:
+                            if ((col - last_col) / 2) > last_numPieces:
                                 return False
                         else:
                             if ((last_col - col) / 2) > last_numPieces:
